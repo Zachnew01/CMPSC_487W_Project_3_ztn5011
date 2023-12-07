@@ -1,3 +1,5 @@
+CREATE DATABASE maintenanceSystem;
+
 CREATE TABLE users(
     username VARCHAR(30) NOT NULL,
     password VARCHAR(30) NOT NULL,
