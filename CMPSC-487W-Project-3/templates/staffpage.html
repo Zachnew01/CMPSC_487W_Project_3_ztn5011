@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+    <meta charset="UTF-8">
+    <title>Maintenance System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <h1>Tenant Maintenance Request System Website</h1>
+    <h2>Maintenance Request Viewing Page</h2>
+
+    <form method="post">
+        <label>Filters | </label>
+        <label for="aNum">Apartment Number:</label>
+        <input type="text" id="aNum" name="aNum">
+        <label for="area">Problem Area:</label>
+        <input type="text" id="area" name="area">
+        <label for="startDate">Start Date:</label>
+        <input type="datetime-local" id="startDate" name="startDate">
+        <label for="endDate">End Date:</label>
+        <input type="datetime-local" id="endDate" name="endDate">
+        <label for="status">Status:</label>
+        <select id="stat" name="status">
+            <option value="">All</option>
+            <option value="Pending">Pending</option>
+            <option value="Completed">Completed</option>
+        <input type="submit" value="Filter"><br>
+    </form>
+    <br>
+    <br>
+
+    <table>
+        <tr>
+          <th>ID</th>
+          <th>Apartment #</th>
+          <th>Problem Area</th>
+          <th>Description</th>
+          <th>Date-Time</th>
+          <th>Photo</th>
+          <th>Status</th>
+          <th>Change Status</th>
+        </tr>
+        {% for request in requests %}
+        <tr>
+          <td>{{ request['request_ID'] }}</td>
+          <td>{{ request['apartment_number'] }}</td>
+          <td>{{ request['problem_area'] }}</td>
+          <td><p>{{ request['description'] }}</p></td>
+          <td>{{ request['time_date'] }}</td>
+          {% if request['photo'] == "" %}
+          <td>No Photo</td>
+          {% else %}
+          {% set filepath = '/Image/' + request['photo']%}
+          <td><img src= "{{url_for('static', filename=filepath)}}"></td>
+          {% endif %}
+          <td>{{ request['status'] }}</td>
+          {% if request['status'] == "Pending" %}
+          <td>
+            <form method="post"> 
+                <button name="complete" type="submit" value={{request['request_ID']}}>Complete</button>
+            </form>
+          </td>
+          {% else %}
+          <td>Completed</td>
+          {% endif %}
+        </tr>
+        {% endfor %}
+    </table>
+    <br>
+
+    <br><a href="{{ url_for('loginpage') }}">Logout</a>
+
+</body>
+
+</html>

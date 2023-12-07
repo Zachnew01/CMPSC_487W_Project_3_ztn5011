@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+    <meta charset="UTF-8">
+    <title>Maintenance System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <h1>Tenant Maintenance Request System Website</h1>
+    <p>A website for submitting, viewing, and managing maintenance requests from tenants</p>
+    <h2>Add a Tenant</h2>
+
+    <form method="post" enctype="multipart/form-data">
+        <label for="tenantID">Tenant ID:</label><br>
+        <input type="text" id="tenantID" name="tenantID"><br>
+        <br>
+        <label for="username">Username:</label><br>
+        <input type="text" id="username" name="username"><br>
+        <br>
+        <label for="password">Password:</label><br>
+        <input type="text" id="password" name="password"><br>
+        <br>
+        <label for="name">Name:</label><br>
+        <input type="text" id="name" name="name"><br>
+        <br>
+        <label for="phoneNum">Phone Number:</label><br>
+        <input type="text" id="phoneNum" name="phoneNum"><br>
+        <br>
+        <label for="email">Email:</label><br>
+        <input type="text" id="email" name="email"><br>
+        <br>
+        <label for="checkInDate">Check In Date:</label><br>
+        <input type="datetime-local" id="checkInDate" name="checkInDate"><br>
+        <br>
+        <label for="checkOutDate">Check Out Date:</label><br>
+        <input type="datetime-local" id="checkOutDate" name="checkOutDate"><br>
+        <br>
+        <label for="aNum">Apartment Number:</label><br>
+        <input type="text" id="aNum" name="aNum"><br>
+        <br>
+        <input type="submit" value="Submit Request"><br>
+    </form>
+    <br><p>{{feedback}}</p>
+
+    <br><a href="{{ url_for('managerpage') }}">Logout</a>
+
+</body>
+
+</html>

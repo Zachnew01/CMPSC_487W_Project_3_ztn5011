@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+    <meta charset="UTF-8">
+    <title>Maintenance System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <h1>Tenant Maintenance Request System Website</h1>
+    <p>A website for submitting, viewing, and managing maintenance requests from tenants</p>
+    <p>Welcome {{name}} to the Maintenance Request Form</p><br>
+    
+    <h2>Maintenance Request Submission Form</h2>
+
+    <form method="post" enctype="multipart/form-data">
+        <label for="loc">Problem Location:</label><br>
+        <input type="text" id="loc" name="loc"><br>
+        <br>
+        <label for="description">Description (Max 255 characters):</label><br>
+        <input type="text" id="description" name="description"><br>
+        <br>
+        <label for="image">Photo (Optional):</label><br>
+        <input type="file" id="imageFile" name="imageFile" accept="image/x-png,image/gif,image/jpeg"><br>
+        <br>
+        <input type="submit" value="Submit Request"><br>
+    </form>
+    <br><p>{{feedback}}</p>
+
+    <br><a href="{{ url_for('loginpage') }}">Logout</a>
+
+</body>
+
+</html>

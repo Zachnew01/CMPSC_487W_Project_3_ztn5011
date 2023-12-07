@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+    <meta charset="UTF-8">
+    <title>Maintenance System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <h1>Tenant Maintenance Request System Website</h1>
+    <p>A website for submitting, viewing, and managing maintenance requests from tenants</p>
+    <h2>Tenant Management Page</h2>
+
+    <br><a href="{{ url_for('addpage') }}">Add Tenant</a><br><br>
+
+    <table>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Phone Number</th>
+          <th>Email</th>
+          <th>Check In Date</th>
+          <th>Check Out Date</th>
+          <th>Apartment Number</th>
+          <th>Move Tenant</th>
+          <th>Remove Tenant</th>
+        </tr>
+        {% for tenant in tenants %}
+        <tr>
+          <td>{{ tenant['tenant_ID'] }}</td>
+          <td>{{ tenant['name'] }}</td>
+          <td>{{ tenant['phone_number'] }}</td>
+          <td>{{ tenant['email'] }}</td>
+          <td>{{ tenant['check_in_date'] }}</td>
+          <td>{{ tenant['check_out_date'] }}</td>
+          <td>{{ tenant['apartment_number'] }}</td>
+          <td>
+            <form method="post">
+                <input type="text" id="moveNum" name="moveNum">
+                <button name="move" type="submit" value={{tenant['tenant_ID']}}>Move</button>
+            </form>
+          </td>
+          <td>
+            <form method="post"> 
+                <button name="delete" type="submit" value={{tenant['tenant_ID']}}>Delete</button>
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+    </table>
+    <br>
+
+    <br><a href="{{ url_for('loginpage') }}">Logout</a>
+
+</body>
+
+</html>
