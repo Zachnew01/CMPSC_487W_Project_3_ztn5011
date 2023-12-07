@@ -53,7 +53,6 @@ def addRequest(aNum, loc, desc, image):
     crsr = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
     sql = "INSERT INTO requests (apartment_number, problem_area, description, time_date, photo, status) VALUES (%s,%s,%s,%s,%s,%s)"
     timedate = datetime.now()
-    print(timedate)
     sqlInput = (aNum, loc, desc, timedate, image, "Pending")
     crsr.execute(sql,sqlInput)
     mysql.connection.commit()
@@ -97,28 +96,23 @@ def browseRequests(aNumF, areaF, dateStartF, dateEndF, statusF, default):
     statusF = "%" + statusF + "%"
     
     if(dateStartF == "" and dateEndF == ""):
-        print(1)
         sql = "Select * FROM requests WHERE apartment_number like %s AND problem_area like %s AND status like %s"
         sqlInput = (aNumF, areaF, statusF)
         crsr.execute(sql,sqlInput)
     elif(dateStartF == ""):
-        print(2)
         sql = "Select * FROM requests WHERE apartment_number like %s AND problem_area like %s AND time_date <= %s AND status like %s"
         sqlInput = (aNumF, areaF, dateEndF, statusF)
         crsr.execute(sql,sqlInput)
     elif(dateEndF == ""):
-        print(3)
         sql = "Select * FROM requests WHERE apartment_number like %s AND problem_area like %s AND time_date >= %s AND status like %s"
         sqlInput = (aNumF, areaF, dateStartF, statusF)
         crsr.execute(sql,sqlInput)
     else:
-        print(4)
         sql = "Select * FROM requests WHERE apartment_number like %s AND problem_area like %s AND time_date >= %s AND time_date <= %s AND status like %s"
         sqlInput = (aNumF, areaF, dateStartF, dateEndF, statusF)
         crsr.execute(sql,sqlInput)
         
     requests = crsr.fetchall()
-    print(requests)
     crsr.close
     return requests
 # End of Browse Requests
@@ -181,9 +175,21 @@ def addTenant(tenantID, username, password, name, phoneNum, email, inDate, outDa
     crsr.execute(sql,sqlInput)
     output = crsr.fetchall()
     if(output == ()):
-        # Username and tenantID are unused
+        # Username and tenantID are unused - Can add tenant
+
+        # First, add a new user to the users table
+        sql = "INSERT INTO users VALUES (%s, %s, %s, %s)"
+        sqlInput = (username, password, name, 'T')
+        crsr.execute(sql,sqlInput)
+
+        # Then, add the tenant to the tenants table
+        sql = "INSERT INTO tenants VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"
+        sqlInput = (tenantID, name, phoneNum, email, inDate, outDate, aNum, username)
+        crsr.execute(sql,sqlInput)
+        mysql.connection.commit()
         return True
     else:
+        # Conflict with Username or TenantID, so add cannot occur
         return False
 # End of Add Tenant
 
